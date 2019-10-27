@@ -124,8 +124,13 @@
               "devServerTarget": "material-podcasts:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "material-podcasts"
 }
