@@ -1,0 +1,76 @@
+<mat-toolbar [color]="isSelectionMode ? '' : 'primary'">
+  <button mat-icon-button (click)="menuClick.emit($event)" [matTooltip]="menuTitle" *ngIf="!isSelectionMode">
+    <mat-icon>{{ menuIcon }}</mat-icon>
+  </button>
+  <button mat-icon-button (click)="_toggleSelectionMode()" [matTooltip]="menuTitle" *ngIf="isSelectionMode">
+    <mat-icon>{{ menuIcon }}</mat-icon>
+  </button>
+  <span class="toolbar-title">{{ toolbarTitle }}</span>
+  <span fxFlex></span>
+  <ng-container *ngIf="hasActionItems">
+    <ng-container *ngFor="let item of nonOverflowActionItems">
+      <ng-container *ngIf="item.children && item.children.length > 0">
+        <button mat-icon-button *ngIf="item.icon" [matTooltip]="item.title" [matMenuTriggerFor]="menu.childMenu">
+          <mat-icon>{{ item.icon }}</mat-icon>
+        </button>
+        <button mat-button *ngIf="!item.icon" [matMenuTriggerFor]="menu.childMenu">
+          {{ item.title }}
+        </button>
+        <app-menu-item #menu [items]="item.children"></app-menu-item>
+      </ng-container>
+      <ng-container *ngIf="!item.children || item.children.length === 0">
+        <button mat-icon-button *ngIf="item.icon && !item.routerLink && !item.href"
+          (click)="item.onClickListener(item, $event)" [matTooltip]="item.title">
+          <mat-icon>{{ item.icon }}</mat-icon>
+        </button>
+        <button mat-button *ngIf="!item.icon && !item.routerLink && !item.href"
+          (click)="item.onClickListener(item, $event)">
+          {{ item.title }}
+        </button>
+        <a mat-icon-button *ngIf="item.icon && item.routerLink && !item.href" [routerLink]="item.routerLink"
+          [matTooltip]="item.title">
+          <mat-icon>{{ item.icon }}</mat-icon>
+        </a>
+        <a mat-button *ngIf="!item.icon && item.routerLink && !item.href" [routerLink]="item.routerLink">
+          {{ item.title }}
+        </a>
+        <a mat-icon-button *ngIf="item.icon && !item.routerLink && item.href" [href]="item.href"
+          [matTooltip]="item.title">
+          <mat-icon>{{ item.icon }}</mat-icon>
+        </a>
+        <a mat-button *ngIf="!item.icon && !item.routerLink && item.href" [href]="item.href">
+          {{ item.title }}
+        </a>
+      </ng-container>
+    </ng-container>
+    <button mat-icon-button [matMenuTriggerFor]="overflowMenu" *ngIf="overflowActionItems.length > 0"
+      matTooltip="More options">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #overflowMenu="matMenu">
+      <ng-container *ngFor="let item of overflowActionItems">
+        <ng-container *ngIf="item.children && item.children.length > 0">
+          <button mat-menu-item [matMenuTriggerFor]="menu.childMenu">
+            <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+            <span>{{ item.title }}</span>
+          </button>
+          <app-menu-item #menu [items]="item.children"></app-menu-item>
+        </ng-container>
+        <ng-container *ngIf="!item.children || item.children.length === 0">
+          <button mat-menu-item *ngIf="!item.routerLink && !item.href" (click)="item.onClickListener(item, $event)">
+            <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+            <span>{{ item.title }}</span>
+          </button>
+          <a mat-menu-item *ngIf="item.routerLink && !item.href" [routerLink]="item.routerLink">
+            <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+            <span>{{ item.title }}</span>
+          </a>
+          <a mat-menu-item *ngIf="!item.routerLink && item.href" [href]="item.href">
+            <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+            <span>{{ item.title }}</span>
+          </a>
+        </ng-container>
+      </ng-container>
+    </mat-menu>
+  </ng-container>
+</mat-toolbar>

@@ -1,0 +1,27 @@
+<mat-menu #childMenu="matMenu" [overlapTrigger]="false">
+  <ng-container *ngFor="let child of items">
+    <!-- Handle branch node menu items -->
+    <ng-container *ngIf="child.children && child.children.length > 0">
+      <button mat-menu-item color="primary" [matMenuTriggerFor]="menu.childMenu">
+        <mat-icon *ngIf="child.icon">{{ child.icon }}</mat-icon>
+        <span>{{ child.title }}</span>
+      </button>
+      <app-menu-item #menu [items]="child.children"></app-menu-item>
+    </ng-container>
+    <!-- Handle leaf node menu items -->
+    <ng-container *ngIf="!child.children || child.children.length === 0">
+      <button mat-menu-item *ngIf="!child.routerLink && !child.href" (click)="child.onClickListener(child, $event)">
+        <mat-icon *ngIf="child.icon">{{ child.icon }}</mat-icon>
+        <span>{{ child.title }}</span>
+      </button>
+      <a mat-menu-item *ngIf="child.routerLink && !child.href" [routerLink]="child.routerLink">
+        <mat-icon *ngIf="child.icon">{{ child.icon }}</mat-icon>
+        <span>{{ child.title }}</span>
+      </a>
+      <a mat-menu-item *ngIf="!child.routerLink && child.href" [href]="child.href">
+        <mat-icon *ngIf="child.icon">{{ child.icon }}</mat-icon>
+        <span>{{ child.title }}</span>
+      </a>
+    </ng-container>
+  </ng-container>
+</mat-menu>
