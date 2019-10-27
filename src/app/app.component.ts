@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { ToolbarService } from './components/toolbar/toolbar.service';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'material-podcasts';
+  @ViewChild('sidenav', { static: true }) sidenav: MatSidenav;
+  constructor(public toolbar: ToolbarService) {
+    toolbar.setMenuClickListener(ev => { this.sidenav.toggle(); });
+  }
+  links = [
+    {
+      title: 'Home',
+      link: '/',
+      icon: 'home'
+    }
+  ];
 }
