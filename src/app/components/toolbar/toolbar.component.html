@@ -5,7 +5,7 @@
   <button mat-icon-button (click)="_toggleSelectionMode()" [matTooltip]="menuTitle" *ngIf="isSelectionMode">
     <mat-icon>{{ menuIcon }}</mat-icon>
   </button>
-  <span class="toolbar-title">{{ toolbarTitle }}</span>
+  <span class="toolbar-title">{{ currentTitle }}</span>
   <span fxFlex></span>
   <ng-container *ngIf="hasActionItems">
     <ng-container *ngFor="let item of nonOverflowActionItems">

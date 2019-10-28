@@ -1,18 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 import { ActionItem } from './models/action-item.model';
-import { ToolbarService } from './toolbar.service';
+
+export type SelectionModeToolbarTitle = (value: number) => string;
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnDestroy {
 
   constructor(
-    private title: Title,
-    private toolbar: ToolbarService
+    private title: Title
   ) { }
 
   /** The toolbar's title. */
@@ -29,9 +31,27 @@ export class ToolbarComponent implements OnInit {
     return this._isSelectionMode;
   }
   set isSelectionMode(value: boolean) {
+    const originalVal = this._isSelectionMode;
+    if (!value) {
+      this.currentTitle = this.toolbarTitle;
+    }
     this._isSelectionMode = value;
     this.menuIcon = value ? 'close' : 'menu';
     this.menuTitle = value ? 'Close' : 'Open sidenav';
+    if (originalVal !== value) {
+      // We don't want duplicated events to be emitted.
+      this.selectionModeToggle.emit(value);
+    }
+  }
+
+  /** The selection model to be used when selection mode is enabled. */
+  @Input()
+  get selectionModel() {
+    return this._selectionModel;
+  }
+  set selectionModel(value: SelectionModel<any>) {
+    this._selectionModel = value;
+    this.updateSelectionModeTitle();
   }
 
   /** Event which is emitted when the menu button is clicked on. */
@@ -55,13 +75,21 @@ export class ToolbarComponent implements OnInit {
     this.nonOverflowActionItems = value.filter(item => !item.isOverflow);
   }
 
+
   hasActionItems = false;
   nonOverflowActionItems: ActionItem[] = [];
   overflowActionItems: ActionItem[] = [];
+  currentTitle = '';
+  private subscriptions = new Subscription();
   private _isSelectionMode = false;
   private _actionItems: ActionItem[];
+  private _selectionModel: SelectionModel<any>;
 
-  ngOnInit() {
+  /** Toolbar title to be used when selection mode is enabled. */
+  @Input() selectionModeToolbarTitle: SelectionModeToolbarTitle = (value: number) => `${value} ${value === 1 ? 'item' : 'items'} selected`;
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   // Sets the default click listeners on the specified items
@@ -78,9 +106,16 @@ export class ToolbarComponent implements OnInit {
     });
   }
 
+  private updateSelectionModeTitle() {
+    if (this.selectionModel) {
+      this.subscriptions.add(this.selectionModel.changed.subscribe(change => {
+        this.currentTitle = this.selectionModeToolbarTitle(change.source.selected.length);
+      }));
+    }
+  }
+
   _toggleSelectionMode() {
     this.isSelectionMode = !this.isSelectionMode;
-    this.selectionModeToggle.emit(this.isSelectionMode);
   }
 
 }

@@ -9,7 +9,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class AppComponent {
   @ViewChild('sidenav', { static: true }) sidenav: MatSidenav;
-  constructor(public toolbar: ToolbarService) {
+  constructor(public toolbar: ToolbarService<any>) {
     toolbar.setMenuClickListener(ev => { this.sidenav.toggle(); });
   }
   links = [

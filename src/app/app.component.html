@@ -9,7 +9,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-toolbar [toolbarTitle]="toolbar.toolbarTitle$ | async" [menuTitle]="toolbar.menuTitle$ | async" [menuIcon]="toolbar.menuIcon$ | async" [isSelectionMode]="toolbar.isSelectionMode$ | async" [actionItems]="toolbar.actionItems$ | async" (menuClick)="toolbar.menuClickListener.value($event)" (selectionModeToggle)="toolbar.isSelectionMode$.next($event)"></app-toolbar>
+    <app-toolbar [toolbarTitle]="toolbar.toolbarTitle$ | async" [menuTitle]="toolbar.menuTitle$ | async" [menuIcon]="toolbar.menuIcon$ | async" [isSelectionMode]="toolbar.isSelectionMode$ | async" [selectionModel]="toolbar.selectionModel$ | async" [actionItems]="toolbar.actionItems$ | async" (menuClick)="toolbar.menuClickListener.value($event)" (selectionModeToggle)="toolbar.isSelectionMode$.next($event)"></app-toolbar>
     <div class="app-content">
       <router-outlet></router-outlet>
     </div>

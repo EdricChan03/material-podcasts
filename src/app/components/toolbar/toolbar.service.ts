@@ -1,12 +1,13 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { ActionItem } from './models/action-item.model';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { ActionItem } from './models/action-item.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ToolbarService {
+export class ToolbarService<S> {
 
   constructor(private title: Title) { }
 
@@ -26,6 +27,8 @@ export class ToolbarService {
   actionItems$ = new BehaviorSubject<ActionItem[]>([]);
 
   isSelectionMode$ = new BehaviorSubject<boolean>(false);
+
+  selectionModel$ = new Subject<SelectionModel<S>>();
 
   /** Adds a list of action items to the current list of action items. */
   addActionItems(items: ActionItem[]) {
@@ -51,5 +54,10 @@ export class ToolbarService {
   /** Toggles the toolbar's current selection mode. */
   toggleIsSelectionMode() {
     this.isSelectionMode$.next(!this.isSelectionMode$.value);
+  }
+
+  /** Sets the selection model to be used. */
+  setSelectionModel(model: SelectionModel<S>) {
+    this.selectionModel$.next(model);
   }
 }
