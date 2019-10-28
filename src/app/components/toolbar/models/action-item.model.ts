@@ -12,7 +12,7 @@ export interface ActionItem {
   /** Listener which is invoked when the action item is clicked on. */
   onClickListener?: (item: ActionItem, ev?: Event) => void;
   /** A router link to be navigated to when the action item is clicked on. */
-  routerLink?: string | UrlTree;
+  route?: string | UrlTree;
   /** A navigation link to go to when the action item is clicked on. */
   href?: string;
 }

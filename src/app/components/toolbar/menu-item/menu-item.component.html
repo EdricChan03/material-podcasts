@@ -10,15 +10,15 @@
     </ng-container>
     <!-- Handle leaf node menu items -->
     <ng-container *ngIf="!child.children || child.children.length === 0">
-      <button mat-menu-item *ngIf="!child.routerLink && !child.href" (click)="child.onClickListener(child, $event)">
+      <button mat-menu-item *ngIf="!child.route && !child.href" (click)="child.onClickListener(child, $event)">
         <mat-icon *ngIf="child.icon">{{ child.icon }}</mat-icon>
         <span>{{ child.title }}</span>
       </button>
-      <a mat-menu-item *ngIf="child.routerLink && !child.href" [routerLink]="child.routerLink">
+      <a mat-menu-item *ngIf="child.route && !child.href" [routerLink]="child.route">
         <mat-icon *ngIf="child.icon">{{ child.icon }}</mat-icon>
         <span>{{ child.title }}</span>
       </a>
-      <a mat-menu-item *ngIf="!child.routerLink && child.href" [href]="child.href">
+      <a mat-menu-item *ngIf="!child.route && child.href" [href]="child.href">
         <mat-icon *ngIf="child.icon">{{ child.icon }}</mat-icon>
         <span>{{ child.title }}</span>
       </a>

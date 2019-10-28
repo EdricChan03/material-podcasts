@@ -19,26 +19,26 @@
         <app-menu-item #menu [items]="item.children"></app-menu-item>
       </ng-container>
       <ng-container *ngIf="!item.children || item.children.length === 0">
-        <button mat-icon-button *ngIf="item.icon && !item.routerLink && !item.href"
+        <button mat-icon-button *ngIf="item.icon && !item.route && !item.href"
           (click)="item.onClickListener(item, $event)" [matTooltip]="item.title">
           <mat-icon>{{ item.icon }}</mat-icon>
         </button>
-        <button mat-button *ngIf="!item.icon && !item.routerLink && !item.href"
+        <button mat-button *ngIf="!item.icon && !item.route && !item.href"
           (click)="item.onClickListener(item, $event)">
           {{ item.title }}
         </button>
-        <a mat-icon-button *ngIf="item.icon && item.routerLink && !item.href" [routerLink]="item.routerLink"
+        <a mat-icon-button *ngIf="item.icon && item.route && !item.href" [routerLink]="item.route"
           [matTooltip]="item.title">
           <mat-icon>{{ item.icon }}</mat-icon>
         </a>
-        <a mat-button *ngIf="!item.icon && item.routerLink && !item.href" [routerLink]="item.routerLink">
+        <a mat-button *ngIf="!item.icon && item.route && !item.href" [routerLink]="item.route">
           {{ item.title }}
         </a>
-        <a mat-icon-button *ngIf="item.icon && !item.routerLink && item.href" [href]="item.href"
+        <a mat-icon-button *ngIf="item.icon && !item.route && item.href" [href]="item.href"
           [matTooltip]="item.title">
           <mat-icon>{{ item.icon }}</mat-icon>
         </a>
-        <a mat-button *ngIf="!item.icon && !item.routerLink && item.href" [href]="item.href">
+        <a mat-button *ngIf="!item.icon && !item.route && item.href" [href]="item.href">
           {{ item.title }}
         </a>
       </ng-container>
@@ -57,15 +57,15 @@
           <app-menu-item #menu [items]="item.children"></app-menu-item>
         </ng-container>
         <ng-container *ngIf="!item.children || item.children.length === 0">
-          <button mat-menu-item *ngIf="!item.routerLink && !item.href" (click)="item.onClickListener(item, $event)">
+          <button mat-menu-item *ngIf="!item.route && !item.href" (click)="item.onClickListener(item, $event)">
             <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
             <span>{{ item.title }}</span>
           </button>
-          <a mat-menu-item *ngIf="item.routerLink && !item.href" [routerLink]="item.routerLink">
+          <a mat-menu-item *ngIf="item.route && !item.href" [routerLink]="item.route">
             <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
             <span>{{ item.title }}</span>
           </a>
-          <a mat-menu-item *ngIf="!item.routerLink && item.href" [href]="item.href">
+          <a mat-menu-item *ngIf="!item.route && item.href" [href]="item.href">
             <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
             <span>{{ item.title }}</span>
           </a>
