@@ -1,4 +1,4 @@
-<h2>Toolbar properties</h2>
+<h2>Default toolbar properties</h2>
 <h3>Actions</h3>
 <button mat-button (click)="toolbar.toggleIsSelectionMode()">Toggle selection mode</button>
 <button mat-button (click)="toolbar.clearActionItems()">Clear action items</button>
@@ -18,7 +18,8 @@
   <div class="form-actions">
     <span fxFlex></span>
     <button mat-button color="warn" (click)="addActionItemForm.reset()">Reset</button>
-    <button mat-raised-button color="primary" (click)="addActionItem()" [disabled]="addActionItemForm.invalid">Add action item</button>
+    <button mat-raised-button color="primary" (click)="addActionItem()" [disabled]="addActionItemForm.invalid">Add
+      action item</button>
   </div>
 </form>
 <br>
@@ -26,4 +27,40 @@
 <p>Is selection mode? {{ toolbar.isSelectionMode$ | async }}</p>
 <p>Menu icon: {{ toolbar.menuIcon$ | async }}</p>
 <p>Menu title: {{ toolbar.menuTitle$ | async }}</p>
-<p>Action items:</p> <pre><code>{{ (toolbar.actionItems$ | async) | json }}</code></pre>
+<details>
+  <summary>Action items</summary>
+  <pre><code>{{ (toolbar.actionItems$ | async) | json }}</code></pre>
+</details>
+<hr>
+<h2>Custom toolbar</h2>
+<div class="fake-app-content">
+  <app-toolbar [toolbarTitle]="customToolbarProps.toolbarTitle" [menuTitle]="customToolbarProps.menuTitle"
+    [menuIcon]="customToolbarProps.menuIcon" [isSelectionMode]="customToolbarProps.isSelectionMode"
+    [selectionModel]="customToolbarProps.selectionModel" [actionItems]="customToolbarProps.actionItems"
+    (menuClick)="customToolbarProps.menuClick($event)"
+    (selectionModeToggle)="customToolbarProps.selectionModeToggle($event)"></app-toolbar>
+  <p>Content goes here...</p>
+  <p>Select items:</p>
+  <mat-selection-list #items [disabled]="!customToolbarProps.isSelectionMode">
+    <mat-list-option *ngFor="let i of [1,2,3,4,5]">
+      <h2 matLine>Item {{ i }}</h2>
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+
+<h3>Properties</h3>
+<section fxLayout="column">
+  <mat-form-field>
+    <mat-label>Toolbar title</mat-label>
+    <input matInput [(ngModel)]="customToolbarProps.toolbarTitle">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Menu button title</mat-label>
+    <input matInput [(ngModel)]="customToolbarProps.menuTitle">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Menu button icon</mat-label>
+    <input matInput [(ngModel)]="customToolbarProps.menuIcon">
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="customToolbarProps.isSelectionMode">Is selection mode?</mat-checkbox>
+</section>

@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { ToolbarService } from '../../components/toolbar/toolbar.service';
 import { ActionItem } from 'src/app/components/toolbar/models/action-item.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Title } from '@angular/platform-browser';
+import { MatSelectionList } from '@angular/material/list';
 
 @Component({
   selector: 'app-develop',
   templateUrl: './develop.component.html',
   styleUrls: ['./develop.component.scss']
 })
-export class DevelopComponent implements OnInit {
+export class DevelopComponent implements AfterViewInit, OnDestroy {
 
   addActionItemForm: FormGroup;
-  defaultActionItems = [
+  defaultActionItems: ActionItem[] = [
     {
       title: 'Text button',
       onClickListener: item => {
@@ -33,28 +36,34 @@ export class DevelopComponent implements OnInit {
           icon: 'delete',
           title: 'Delete document',
           onClickListener: item => {
-            if (confirm('Are you sure you want to delete the document?')) {
-              alert('Document was deleted.');
-            } else {
-              alert('Document was not deleted.');
-            }
+            console.log('Document was deleted!');
           }
         },
         {
           icon: 'save_alt',
           title: 'Save document',
           onClickListener: item => {
-            alert('Successfully saved file!');
+            console.log('Successfully saved file!');
           }
         },
         {
           icon: 'cloud_upload',
           title: 'Upload document...',
           onClickListener: item => {
-            alert('(A file chooser dialog would be shown here)');
+            console.log('(A file chooser dialog would be shown here)');
           }
         }
       ]
+    },
+    {
+      icon: 'open_in_browser',
+      title: 'Go to home page',
+      route: '/home'
+    },
+    {
+      icon: 'open_in_new',
+      title: 'Google page',
+      href: 'https://google.com'
     },
     {
       icon: 'extension',
@@ -63,6 +72,18 @@ export class DevelopComponent implements OnInit {
       onClickListener: item => {
         this.onActionItemClick(item);
       }
+    },
+    {
+      icon: 'open_in_browser',
+      title: 'Go to develop page',
+      isOverflow: true,
+      route: '/develop'
+    },
+    {
+      icon: 'open_in_new',
+      title: 'Google page',
+      isOverflow: true,
+      href: 'https://google.com'
     },
     {
       title: 'Overflow text button with submenu',
@@ -109,7 +130,30 @@ export class DevelopComponent implements OnInit {
     }
   ];
 
-  constructor(private fb: FormBuilder, public toolbar: ToolbarService) {
+  @ViewChild('items', { static: true }) items: MatSelectionList;
+  customToolbarProps = {
+    toolbarTitle: this.title.getTitle(),
+    menuTitle: '',
+    menuIcon: '',
+    isSelectionMode: false,
+    selectionModel: null,
+    actionItems: this.defaultActionItems,
+    menuClick: (ev: Event) => {
+      console.log('Menu button was clicked with event:', ev);
+    },
+    selectionModeToggle: (isSelectionMode: boolean) => {
+      console.log('Selection mode toggled to value:', isSelectionMode);
+      if (this.customToolbarProps.isSelectionMode !== isSelectionMode) {
+        this.customToolbarProps.isSelectionMode = isSelectionMode;
+      }
+    }
+  };
+
+  constructor(
+    private fb: FormBuilder,
+    private title: Title,
+    public toolbar: ToolbarService<any>
+  ) {
     this.addActionItemForm = fb.group({
       title: ['', Validators.required],
       icon: '',
@@ -120,7 +164,6 @@ export class DevelopComponent implements OnInit {
   }
 
   onActionItemClick(item: ActionItem) {
-    alert(`Item with title "${item.title}" clicked!`);
     console.log('Item clicked with metadata:', item);
   }
 
@@ -137,8 +180,13 @@ export class DevelopComponent implements OnInit {
     this.addActionItemForm.reset();
   }
 
+  ngAfterViewInit() {
+    this.customToolbarProps.selectionModel = this.items.selectedOptions;
+  }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    // Reset current action items
+    this.toolbar.clearActionItems();
   }
 
 }

@@ -6,7 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ToolbarModule } from '../../components/toolbar/toolbar.module';
 import { DevelopRoutingModule } from './develop-routing.module';
 import { DevelopComponent } from './develop.component';
 
@@ -15,6 +17,7 @@ const MATERIAL_MODULES = [
   MatCheckboxModule,
   MatFormFieldModule,
   MatInputModule,
+  MatListModule,
   MatSlideToggleModule
 ];
 
@@ -26,7 +29,8 @@ const MATERIAL_MODULES = [
     FormsModule,
     ReactiveFormsModule,
     MATERIAL_MODULES,
-    DevelopRoutingModule
+    DevelopRoutingModule,
+    ToolbarModule
   ]
 })
 export class DevelopModule { }
