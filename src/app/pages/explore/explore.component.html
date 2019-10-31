@@ -1,0 +1,22 @@
+<div gdColumns="repeat(3, 1fr)" gdGap="20px">
+  <mat-card *ngFor="let podcast of (podcasts | async)?.feed?.results" class="outlined-card">
+    <mat-card-title-group>
+      <mat-card-title>{{ podcast?.name }}</mat-card-title>
+      <mat-card-subtitle>By {{ podcast?.artistName }}</mat-card-subtitle>
+      <img mat-card-sm-image [src]="podcast?.artworkUrl100" alt="{{ podcast?.name }} artwork">
+    </mat-card-title-group>
+    <mat-card-content>
+      <mat-chip-list>
+        <mat-chip *ngFor="let genre of podcast?.genres">
+          {{ genre?.name }}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-stroked-button class="mat-text-icon-button">
+        <mat-icon>add</mat-icon>
+        Subscribe
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

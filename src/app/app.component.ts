@@ -14,9 +14,9 @@ export class AppComponent {
   }
   links = [
     {
-      title: 'Home',
-      link: '/',
-      icon: 'home'
+      title: 'Explore',
+      link: '/explore',
+      icon: 'explore'
     }
   ];
 }
