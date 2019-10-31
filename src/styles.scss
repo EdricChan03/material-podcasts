@@ -1,9 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import 'app-theming';
+
+@include mat-core();
+
+$app-primary: mat-palette($mat-indigo);
+$app-accent: mat-palette($mat-pink, A200, A100, A400);
+
+$app-theme: mat-light-theme($app-primary, $app-accent);
+
+@include angular-material-theme($app-theme);
+@include app-theme($app-theme);
+
+$dark-app-primary: mat-palette($mat-purple);
+$dark-app-accent: mat-palette($mat-amber, A200, A100, A400);
+
+$dark-app-theme: mat-dark-theme($dark-app-primary, $dark-app-accent);
+
+.dark-theme {
+  @include angular-material-theme($dark-app-theme);
+  @include app-theme($app-theme);
+}
+
 
 .app-sidenav {
-  min-width: 200px;
+  // Aligns with the Material Design specs for a standard navigation
+  // drawer.
+  min-width: 256px;
 }
 
 .app-content {
   margin: 5%;
+}
+
+// CSS hack to position the leading icon in a button
+// TODO: Add supprt for trailing icons
+.mat-button-base.mat-text-icon-button .mat-button-wrapper {
+  display: flex;
+  align-items: center;
+  mat-icon {
+    margin-left: -9px;
+    margin-right: 4px;
+  }
 }

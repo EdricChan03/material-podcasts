@@ -1,0 +1,25 @@
+@import '~@angular/material/theming';
+
+@mixin app-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $is-dark-theme: map-get($theme, is-dark);
+  .active-link {
+    // Since it's a bit hard to actually see the text in the dark theme, it'll use the accent color if it's dark and primary if it's not. Same applies for mat-icon
+    color: if($is-dark-theme, mat-color($accent), mat-color($primary)) !important;
+    mat-icon {
+      color: if($is-dark-theme, mat-color($accent), mat-color($primary)) !important;
+    } // Note: These colors are based on the Android sidenav selection state
+    background-color: if($is-dark-theme, #595959, #DCDCDC) !important;
+  }
+
+  .mat-card.outlined-card {
+    border: 1px solid;
+    border-color: if($is-dark-theme, mat-color($mat-grey, A300), mat-color($mat-grey, 300));
+    @include mat-elevation(0);
+    @include mat-elevation-transition;
+    &:hover {
+      @include mat-elevation(4);
+    }
+  }
+}
