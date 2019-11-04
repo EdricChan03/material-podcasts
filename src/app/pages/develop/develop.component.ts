@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { ToolbarService } from '../../components/toolbar/toolbar.service';
-import { ActionItem } from 'src/app/components/toolbar/models/action-item.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SelectionModel } from '@angular/cdk/collections';
-import { Title } from '@angular/platform-browser';
 import { MatSelectionList } from '@angular/material/list';
+import { Title } from '@angular/platform-browser';
+import { ActionItem } from '../../components/toolbar/models/action-item.model';
+import { ToolbarComponent } from '../../components/toolbar/toolbar.component';
+import { ToolbarService } from '../../components/toolbar/toolbar.service';
 
 @Component({
   selector: 'app-develop',
@@ -131,12 +131,12 @@ export class DevelopComponent implements AfterViewInit, OnDestroy {
   ];
 
   @ViewChild('items', { static: true }) items: MatSelectionList;
+  @ViewChild('fakeToolbar', { static: true }) fakeToolbar: ToolbarComponent;
   customToolbarProps = {
     toolbarTitle: this.title.getTitle(),
     menuTitle: '',
     menuIcon: '',
     isSelectionMode: false,
-    selectionModel: null,
     actionItems: this.defaultActionItems,
     menuClick: (ev: Event) => {
       console.log('Menu button was clicked with event:', ev);
@@ -181,7 +181,7 @@ export class DevelopComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.customToolbarProps.selectionModel = this.items.selectedOptions;
+    this.fakeToolbar.selectionModel = this.items.selectedOptions;
   }
 
   ngOnDestroy() {
