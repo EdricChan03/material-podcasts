@@ -76,9 +76,11 @@ export class ToolbarComponent implements OnDestroy {
   overflowActionItems: ActionItem[] = [];
   currentTitle = '';
   private subscriptions = new Subscription();
+  /* tslint:disable: variable-name */
   private _isSelectionMode = false;
   private _actionItems: ActionItem[];
   private _selectionModel: SelectionModel<any>;
+  /* tslint:enable: variable-name */
 
   /** Toolbar title to be used when selection mode is enabled. */
   @Input() selectionModeToolbarTitle: SelectionModeToolbarTitle = (value: number) => `${value} ${value === 1 ? 'item' : 'items'} selected`;
