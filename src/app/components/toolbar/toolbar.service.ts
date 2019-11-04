@@ -30,6 +30,11 @@ export class ToolbarService<S> {
 
   selectionModel$ = new Subject<SelectionModel<S>>();
 
+  /** Sets the toolbar title to the specified value. */
+  setToolbarTitle(title: string) {
+    this.toolbarTitle$.next(title);
+  }
+
   /** Adds a list of action items to the current list of action items. */
   addActionItems(items: ActionItem[]) {
     const result = items.concat(this.actionItems$.value);
