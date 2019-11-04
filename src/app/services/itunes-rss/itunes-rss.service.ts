@@ -40,7 +40,8 @@ export class ItunesRssService {
 
     return `${baseUrl}/${settings.country}/${settings.mediaType}/` +
       `${settings.feedType}/${settings.genre}/` +
-      `${settings.resultsLimit ? settings.resultsLimit : 10}/${settings.allowExplicit ? 'explicit' : 'non-explicit'}.json`;
+      `${settings.resultsLimit ? settings.resultsLimit : 10}/` +
+      `${settings.allowExplicit ? 'explicit' : 'non-explicit'}.${settings.format ? settings.format : 'json'}`;
   }
 
   /**
