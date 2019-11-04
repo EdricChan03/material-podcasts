@@ -12,13 +12,8 @@ export type SelectionModeToolbarTitle = (value: number) => string;
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnDestroy {
-
-  constructor(
-    private title: Title
-  ) { }
-
   /** The toolbar's title. */
-  @Input() toolbarTitle = this.title.getTitle();
+  @Input() toolbarTitle: string;
 
   /** The menu button's icon. */
   @Input() menuIcon = 'menu';
